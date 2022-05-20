@@ -264,3 +264,10 @@ _Pvt_Extensions
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+*.db-shm
+*.db-wal
+*.db
+
+appsettings.json
