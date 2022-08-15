@@ -6,9 +6,10 @@ import ActivityForm from '../form/ActivityForm'
 type Props = {
   activity: Activity
   handleCreateOrEditActivity: (activity: Activity) => void
+  handleDeleteActivity: (id: string) => void
 }
 
-function ActivityDetails({ activity, handleCreateOrEditActivity }: Props) {
+function ActivityDetails({ activity, handleCreateOrEditActivity, handleDeleteActivity }: Props) {
   const [edit, setEdit] = useState(false)
   return (
     <motion.div
@@ -39,13 +40,20 @@ function ActivityDetails({ activity, handleCreateOrEditActivity }: Props) {
               <div className='text-sm text-gray-400 '>{activity.date.toString()}</div>
             </header>
             <p className='font-medium mb-1'>{activity.description}</p>
-            <div className='flex justify-end mr-4'>
+            <div className='flex justify-end mr-4 gap-1'>
               <button
-                className='text-blue-400 px-8 py-2 border border-blue-400 rounded-md font-medium hover:bg-pink-200'
+                className='text-blue-400 px-8 py-2 border border-blue-400 rounded-md font-medium hover:bg-blue-200'
                 type='button'
                 onClick={() => setEdit(true)}
               >
                 Edit
+              </button>
+              <button
+                className='text-red-400 px-8 py-2 border border-red-400 rounded-md font-medium hover:bg-pink-200'
+                type='button'
+                onClick={() => handleDeleteActivity(activity.id)}
+              >
+                Delete
               </button>
             </div>
           </div>

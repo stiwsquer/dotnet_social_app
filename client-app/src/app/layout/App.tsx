@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { v4 as uuid } from 'uuid'
 import axios from 'axios'
 import { Activity } from '../models/activity'
 import NavBar from './NavBar'
@@ -29,9 +30,13 @@ function App() {
   const handleCreateOrEditActivity = (activity: Activity) => {
     if (activity.id)
       setActivities([...activities.filter((act) => act.id !== activity.id), activity])
-    else setActivities([...activities, activity])
+    else setActivities([...activities, { ...activity, id: uuid() }])
 
     onCancelCreateActivityClick()
+  }
+
+  const handleDeleteActivity = (id: string) => {
+    setActivities([...activities.filter((x) => x.id !== id)])
   }
 
   return (
@@ -43,6 +48,7 @@ function App() {
           showCreateActivityForm={showCreateActivityForm}
           onCancelCreateActivityClick={onCancelCreateActivityClick}
           handleCreateOrEditActivity={handleCreateOrEditActivity}
+          handleDeleteActivity={handleDeleteActivity}
         />
       </MainLayout>
     </>

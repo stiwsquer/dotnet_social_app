@@ -7,9 +7,10 @@ import ActivityDetails from '../details/ActivityDetails'
 type Props = {
   activity: Activity
   handleCreateOrEditActivity: (activity: Activity) => void
+  handleDeleteActivity: (id: string) => void
 }
 
-function ActivityItem({ activity, handleCreateOrEditActivity }: Props) {
+function ActivityItem({ activity, handleCreateOrEditActivity, handleDeleteActivity }: Props) {
   const [screw, setScrew] = useState(false)
   return (
     <li className='flex relative flex-col lg:flex-row transition-all ease-linear duration-500'>
@@ -40,6 +41,7 @@ function ActivityItem({ activity, handleCreateOrEditActivity }: Props) {
           <ActivityDetails
             handleCreateOrEditActivity={handleCreateOrEditActivity}
             activity={activity}
+            handleDeleteActivity={handleDeleteActivity}
           />
         )}
       </AnimatePresence>
