@@ -1,4 +1,8 @@
-function NavBar() {
+type Props = {
+  onCreateActivityClick: () => void
+}
+
+function NavBar({ onCreateActivityClick }: Props) {
   return (
     <nav className='bg-gradient-to-r from-cyan-500 to-blue-500 flex justify-center w-full h-20 text-white'>
       <div className='flex items-center justify-between px-2 w-full md:px-0 md:w-sm lg:w-md xl:w-lg font-medium'>
@@ -10,7 +14,11 @@ function NavBar() {
           <li>Activities</li>
           <span className='relative h-16 border-l-[1px] border-gray-400' />
           <li>
-            <button className='bg-green-500 px-3 py-1 rounded-md font-medium' type='button'>
+            <button
+              onClick={onCreateActivityClick}
+              className='bg-green-500 px-3 py-1 rounded-md font-medium'
+              type='button'
+            >
               Create Activity
             </button>
           </li>

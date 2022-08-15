@@ -10,6 +10,9 @@ module.exports = {
       },
       flexBasis: {
         1024: '1024px'
+      },
+      minWidth: {
+        300: '300px'
       }
     }
   },
