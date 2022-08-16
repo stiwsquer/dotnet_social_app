@@ -5,9 +5,15 @@ type Props = {
   activities: Activity[]
   handleCreateOrEditActivity: (activity: Activity) => void
   handleDeleteActivity: (id: string) => void
+  submitting: boolean
 }
 
-function ActivityList({ activities, handleCreateOrEditActivity, handleDeleteActivity }: Props) {
+function ActivityList({
+  activities,
+  handleCreateOrEditActivity,
+  handleDeleteActivity,
+  submitting
+}: Props) {
   if (!activities.length) return <div>Fetching activities...</div>
 
   return (
@@ -18,6 +24,7 @@ function ActivityList({ activities, handleCreateOrEditActivity, handleDeleteActi
           activity={activity}
           handleCreateOrEditActivity={handleCreateOrEditActivity}
           handleDeleteActivity={handleDeleteActivity}
+          submitting={submitting}
         />
       ))}
     </ul>

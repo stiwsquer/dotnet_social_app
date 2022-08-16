@@ -7,9 +7,16 @@ type Props = {
   title: string
   selectedActivity?: Activity
   handleCreateOrEditActivity: (activity: Activity) => void
+  submitting: boolean
 }
 
-function ActivityForm({ onCancel, title, selectedActivity, handleCreateOrEditActivity }: Props) {
+function ActivityForm({
+  onCancel,
+  title,
+  selectedActivity,
+  handleCreateOrEditActivity,
+  submitting
+}: Props) {
   const [activity, setActivity] = useState(
     selectedActivity ?? {
       id: '',
@@ -66,7 +73,7 @@ function ActivityForm({ onCancel, title, selectedActivity, handleCreateOrEditAct
         <input
           name='date'
           className='input-text'
-          type='text'
+          type='date'
           placeholder='Date'
           value={activity.date}
           onChange={handleInputChange}
@@ -99,6 +106,7 @@ function ActivityForm({ onCancel, title, selectedActivity, handleCreateOrEditAct
           <button
             className='bg-blue-500 px-4 py-2 rounded-r-lg text-white font-semibold'
             type='submit'
+            disabled={submitting}
           >
             Submit
           </button>

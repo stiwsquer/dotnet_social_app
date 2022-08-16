@@ -10,6 +10,7 @@ type Props = {
   onCancelCreateActivityClick: () => void
   handleCreateOrEditActivity: (activity: Activity) => void
   handleDeleteActivity: (id: string) => void
+  submitting: boolean
 }
 
 function ActivityDashboard({
@@ -17,7 +18,8 @@ function ActivityDashboard({
   showCreateActivityForm,
   onCancelCreateActivityClick,
   handleCreateOrEditActivity,
-  handleDeleteActivity
+  handleDeleteActivity,
+  submitting
 }: Props) {
   return (
     <>
@@ -25,6 +27,7 @@ function ActivityDashboard({
         activities={activities}
         handleCreateOrEditActivity={handleCreateOrEditActivity}
         handleDeleteActivity={handleDeleteActivity}
+        submitting={submitting}
       />
 
       <Modal
@@ -38,6 +41,7 @@ function ActivityDashboard({
             onCancel={onCancelCreateActivityClick}
             title='Create Activity'
             handleCreateOrEditActivity={handleCreateOrEditActivity}
+            submitting={submitting}
           />
         </div>
       </Modal>

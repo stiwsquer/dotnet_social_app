@@ -7,9 +7,15 @@ type Props = {
   activity: Activity
   handleCreateOrEditActivity: (activity: Activity) => void
   handleDeleteActivity: (id: string) => void
+  submitting: boolean
 }
 
-function ActivityDetails({ activity, handleCreateOrEditActivity, handleDeleteActivity }: Props) {
+function ActivityDetails({
+  activity,
+  handleCreateOrEditActivity,
+  handleDeleteActivity,
+  submitting
+}: Props) {
   const [edit, setEdit] = useState(false)
   return (
     <motion.div
@@ -24,6 +30,7 @@ function ActivityDetails({ activity, handleCreateOrEditActivity, handleDeleteAct
           title='Edit'
           selectedActivity={activity}
           handleCreateOrEditActivity={handleCreateOrEditActivity}
+          submitting={submitting}
         />
       ) : (
         <>
@@ -52,6 +59,7 @@ function ActivityDetails({ activity, handleCreateOrEditActivity, handleDeleteAct
                 className='text-red-400 px-8 py-2 border border-red-400 rounded-md font-medium hover:bg-pink-200'
                 type='button'
                 onClick={() => handleDeleteActivity(activity.id)}
+                disabled={submitting}
               >
                 Delete
               </button>

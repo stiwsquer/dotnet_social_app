@@ -1,22 +1,23 @@
 import { useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
-import axios from 'axios'
-import { Activity } from '../models/activity'
-import NavBar from './NavBar'
-import MainLayout from './MainLayout'
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard'
+import agent from '../api/agent'
+import { Activity } from '../models/activity'
+import MainLayout from './MainLayout'
+import NavBar from './NavBar'
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([])
   const [showCreateActivityForm, setShowCreateActivityForm] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
-  const getActivites = async () => {
-    const res = await axios.get<Activity[]>('http://localhost:5000/api/activities')
-    setActivities(res.data)
+  const getActivities = async () => {
+    const data = await agent.Activities.list()
+    setActivities(data.map((activity) => ({ ...activity, date: activity.date.split('T')[0] })))
   }
 
   useEffect(() => {
-    getActivites()
+    getActivities()
   }, [])
 
   const onCreateActivityClick = () => {
@@ -27,16 +28,30 @@ function App() {
     setShowCreateActivityForm(false)
   }
 
-  const handleCreateOrEditActivity = (activity: Activity) => {
-    if (activity.id)
-      setActivities([...activities.filter((act) => act.id !== activity.id), activity])
-    else setActivities([...activities, { ...activity, id: uuid() }])
+  const handleCreateOrEditActivity = async (activity: Activity) => {
+    setSubmitting(true)
 
+    if (activity.id) {
+      agent.Activities.update(activity).then(() => {
+        setActivities([...activities.filter((act) => act.id !== activity.id), activity])
+        setSubmitting(false)
+      })
+    } else {
+      const newActivity = { ...activity, id: uuid() }
+      agent.Activities.create(newActivity).then(() => {
+        setActivities([...activities, newActivity])
+        setSubmitting(false)
+      })
+    }
     onCancelCreateActivityClick()
   }
 
   const handleDeleteActivity = (id: string) => {
-    setActivities([...activities.filter((x) => x.id !== id)])
+    setSubmitting(true)
+    agent.Activities.delete(id).then(() => {
+      setActivities([...activities.filter((x) => x.id !== id)])
+      setSubmitting(false)
+    })
   }
 
   return (
@@ -49,6 +64,7 @@ function App() {
           onCancelCreateActivityClick={onCancelCreateActivityClick}
           handleCreateOrEditActivity={handleCreateOrEditActivity}
           handleDeleteActivity={handleDeleteActivity}
+          submitting={submitting}
         />
       </MainLayout>
     </>
